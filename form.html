@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Invia Nome Vincitore</title>
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script>
+    (function() {
+      emailjs.init("wWAzVyCJqB2nKsn8k"); // ✅ Public Key
+    })();
+  </script>
+  <style>
+    body {
+      font-family: 'Courier New', Courier, monospace;
+      background: #ebebeb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    form {
+        font-family: 'Courier New', Courier, monospace;
+      background: white;
+      padding: 30px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-width: 300px;
+    }
+    input {
+        font-family: 'Courier New', Courier, monospace;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+    }
+    button {
+        font-family: 'Courier New', Courier, monospace;
+      padding: 10px;
+      background-color: #e60000;
+      color: white;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #b50000;
+    }
+
+    h3{
+        margin-top: -15px;
+        font-weight: lighter;
+    }
+
+    h4{
+        text-align: center;
+        transform: translate(-50%);
+        left: 50%;
+        top: 66%;
+        margin-bottom: 590px;
+        position:relative;
+        display: block;
+    }
+
+    div{
+        position: absolute;
+        transform: translate(0%,-45%);
+        top: 70%;
+    }
+  </style>
+</head>
+<body>
+
+  <div><form id="form-nome">
+    <h2>Lascia il tuo nome per farci sapere<br> che hai completato il nostro gioco :3</h2>
+    <h3>Verrai inserito/a nella leaderboard</h3>
+    <input type="text" name="nome" placeholder="Inserisci il nome" required>
+    <button type="submit">Invia</button>
+  </form>
+  <a href="leaderboard.html"><h4>vai alla leaderboard</h4></a></div>
+
+  <script>
+    document.getElementById('form-nome').addEventListener('submit', function(e) {
+      e.preventDefault();
+      emailjs.sendForm('service_xe3eci9', 'template_gvate3e', this)
+        .then(() => {
+          alert("Nome inviato con successo!");
+          this.reset();
+        }, (error) => {
+          alert("Errore durante l'invio: " + JSON.stringify(error));
+        });
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Finale</title>
+  <style>
+    body {
+      font-family: 'Courier New', Courier, monospace;
+      background: #ebebeb;
+      color: black;
+      text-align: center;
+      margin: 0;
+      transition: background 0s, color 1s;
+
+    }
+
+    h1, h2, h3, h4, h5 {
+      transition: color 1s;
+      z-index: 3;
+    }
+
+    h1 { font-size: 80px; color: red; margin-bottom: 0; z-index: 3;}
+    h2 { font-size: 50px; color: red; margin-top: 5px; z-index: 3;}
+    h3 { font-size: 30px; font-weight: lighter;z-index: 3; }
+    #tiddy { margin-top: -10px; z-index: 3;}
+    #cura { margin-top: -4px; font-weight: lighter; z-index: 3;}
+
+    audio {
+      margin-top: 30px;
+      z-index: 3;
+    }
+
+    #leftImage {
+      position: fixed;
+      top: 40%;
+      left: -270px;
+      width: 800px;
+      display: none;
+      transform: rotate(50deg) translate(-270px);
+      z-index: 0;
+    }
+
+    #lyrics {
+      max-width: 1300px;
+      margin: 40px auto;
+      text-align: center;
+      white-space: pre-line;
+      display: none;
+       z-index: 3;
+       margin-bottom: 500px;
+    }
+
+    #lyrics p {
+      font-size: 30px;
+      text-align: center;
+      margin-bottom: 12px;
+      overflow: hidden;
+      white-space: nowrap;
+      border-right: 2px solid white;
+      color: white;
+      display: block;
+      width: 0;
+      animation: none;
+      z-index: 3;
+    }
+
+    .red {
+      color: red !important;
+      border-right: 2px solid red;
+      z-index: 3;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    #canzone{
+        margin-top: -20px;
+        font-weight: lighter;
+    }
+  </style>
+</head>
+<body>
+  <h1>Hai raggiunto la fine!</h1>
+  <h2>Grazie per aver giocato</h2>
+  <h3>Da un'idea di: Mario Guarascio</h3>
+  <h4 id="tiddy">A sostegno del progetto: Tiddyesse</h4>
+  <h4 id="cura">a cura di: Mario Guarascio e Luciano De Buono Filippelli</h4>
+  <h5>2025</h5>
+  <h3>Spero di essere riuscito a intrattenervi per un po'.</h3>
+  <br>
+  <h4 id="canzone">Prima di salutarci, se ti va, c'è un'ultima cosa da fare subito dopo la canzone che ha ispirato tutto questo.</h4>
+
+  <audio id="audio" controls>
+    <source src="pagina finale.mp3" type="audio/mpeg" />
+    Il tuo browser non supporta l'audio HTML5.
+  </audio>
+
+  <img src="atto11.gif" id="leftImage" alt="immagine a sinistra" />
+  <div id="lyrics"></div>
+
+  <script>
+    const audio = document.getElementById('audio');
+    const body = document.body;
+    const headers = document.querySelectorAll('h1, h2, h3, h4, h5');
+    const image = document.getElementById('leftImage');
+    const lyrics = document.getElementById('lyrics');
+
+    const syncedLyrics = [
+      { text: "The lights go down on some dark theatre in London", time: 38, red: false },
+      { text: "Ooh, for the cruelest comedy", time: 43, red: false },
+      { text: "The audience hold their breath they freeze and dare not look away", time: 51, red: false },
+      { text: "Ooh, it's the cruelest comedy", time: 58, red: true },
+      { text: "The actors stumble on, with masks, but no real plot", time: 67, red: true },
+      { text: "There are no exit signs and all the doors are locked", time: 75, red: true },
+      { text: "The compere jumps up", time: 88, red: false },
+      { text: "Ladies and gentlemen, I'm so glad that you heard", time: 90, red: true },
+      { text: "Of the blackest black comedy", time: 97, red: true },
+      { text: "From The House of The Absurd", time: 100, red: false },
+      { text: "The orchestra strike up a song that no one's heard of", time: 129, red: false },
+      { text: "A story-line that no one knows to sing", time: 136, red: false },
+      { text: "This cabaret must never end", time: 144, red: true },
+      { text: "A dozen roses no one sends", time: 148, red: true },
+      { text: "Ooh, the cruelest comedy", time: 152, red: false },
+      { text: "The stage is draped palest, palest bitter blue", time: 160, red: false },
+      { text: "And from the wings and right on cue", time: 169, red: false },
+      { text: "The compere jumps up", time: 181, red: false },
+      { text: "Ladies and gentlemen, I'm so glad that you heard", time: 183, red: false },
+      { text: "Of the blackest black comedy", time: 190, red: false },
+      { text: "From The House Of The Absurd", time: 193, red: false },
+      { text: "Ladies and gentlemen, will you please walk this way", time: 206, red: true },
+      { text: "For the last and only performance of the cruellest cabaret", time: 213, red: true },
+      { text: "The blackest black comedy from The Theatre Of The Absurd", time: 229, red: true },
+      { text: " ", time: 230, red: true },
+      { text: " ", time: 230, red: true },
+      { text: " ", time: 230, red: true },
+      { text: " ", time: 230, red: true },
+      { text: " ", time: 230, red: true },
+      { text: "a", time: 241, red: true }
+    ];
+
+    let started = false;
+
+    function updateLyricsLoop() {
+      const currentTime = audio.currentTime;
+
+      syncedLyrics.forEach(lineObj => {
+        if (!lineObj.shown && currentTime >= lineObj.time) {
+          const p = document.createElement('p');
+          p.textContent = lineObj.text;
+          if (lineObj.red) p.classList.add('red');
+          p.style.animation = 'typing 3s steps(40, end) forwards, fadeIn 2s forwards';
+          p.style.width = '100%';
+          lyrics.appendChild(p);
+          lineObj.shown = true;
+        }
+      });
+
+      requestAnimationFrame(updateLyricsLoop);
+    }
+
+    audio.addEventListener('play', () => {
+      if (started) return;
+      started = true;
+
+      body.style.background = 'black';
+      headers.forEach(h => h.style.color = 'white');
+      image.style.display = 'block';
+      lyrics.style.display = 'block';
+
+      requestAnimationFrame(updateLyricsLoop);
+    });
+  </script>
+</body>
+</html>
